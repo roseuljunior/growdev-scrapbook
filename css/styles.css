@@ -3,6 +3,11 @@
     margin: 0;
 }
 
+body {
+    background-color: #E0FFFF;
+    overflow: hidden;
+}
+
 .container-login {
     position: absolute;
     top: 50%;
@@ -16,7 +21,7 @@
 
 .login-sides {
     position: relative;
-    width: 50%;
+    width: 50vw;
 }
 
 .login-sides h5 {
@@ -42,6 +47,7 @@
     width: 48%;
     border: 1 px solid rgb(184, 179, 179);
     height: 35px;
+    padding-left: 7px;
 }
 
 .form-login .button-input {
@@ -65,9 +71,11 @@
 }
 
 .input-register {
-    width: 250px;
+    width: 400px;
     border: 1px solid rgb(184, 179, 179);
     height: 35px;
+    margin-left: 20%;
+    padding-left: 7px;
 }
 
 .container-errand {
@@ -90,6 +98,13 @@
     padding: 5px 15px;
     border-radius: 5px;
     background-color: cornflowerblue;
+    color: white;
+}
+
+.button-logOut {
+    padding: 5px 15px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.795);
     color: white;
 }
 
