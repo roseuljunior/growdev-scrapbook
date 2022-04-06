@@ -14,13 +14,13 @@
                 <div class="header d-flex flex-row justify-content-between align-items-center">
                     <a id="logOut" class="button-logOut" href="#" onclick="onLogout()">Sair</a>
                     <h1>Recados</h1>
-                    <a id="btn-add" data-bs-toggle="modal" class="btn btn-success font-weight-bold" href="#addModal">+</a>
+                    <a id="btn-add" data-bs-toggle="modal" class="btn btn-success font-weight-bold" href="#addModal">Adicionar</a>
                 </div>
                 
                 <table class="table table-dark table-striped">
                     <thead>
                         <tr>
-                            <th scope="col" class="text-center">#</th>
+                            <th scope="col" class="text-center">ID</th>
                             <th scope="col" class="text-center">Descrição</th>
                             <th scope="col" class="text-center">Detalhe</th>
                             <th scope="col" class="text-center">Ações</th>
@@ -36,13 +36,13 @@
           <div class="modal-dialog">
               <div class="modal-content">
                   <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Adicione uma nova tarefa na lista</h5>
+                      <h5 class="modal-title" id="exampleModalLabel">Adicione itens na lista</h5>
                       <a class="btn btn-close p-0" data-bs-dismiss="modal" aria-label="Close"><h5>&times;</h5></a>
                   </div>
                   <div class="modal-body">
                       <form id="formCRUD" class="d-flex flex-column">
-                          <input class="mb-2" type="text" id="title" autocomplete="off" placeholder="Descrição">
-                          <textarea class="pl-1" id="description" autocomplete="off" placeholder="Detalhamento"></textarea>
+                          <input class="mb-2" type="text" id="title" autocomplete="off" placeholder="Título">
+                          <textarea class="pl-1" id="description" autocomplete="off" placeholder="Descreva aqui"></textarea>
                       </form>
                   </div>
                   <div class="modal-footer">
@@ -57,7 +57,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title">Edição de mensagem <span class="text-min" id="editErrandId"></span></h5>
+                  <h5 class="modal-title">Editar de mensagem <span class="text-min" id="editErrandId"></span></h5>
                     <a class="btn btn-close p-0" data-bs-dismiss="modal" aria-label="Close"><h5>&times;</h5></a>
                 </div>
                 <div class="modal-body">
@@ -79,4 +79,4 @@
         <script src="./js/axiosDefault.js"></script>
         <script src="./js/errands.js"></script>
     </body>
-</html
+</html>

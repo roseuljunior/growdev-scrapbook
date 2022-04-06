@@ -1,77 +1,71 @@
 document.addEventListener('DOMContentLoaded', () => {
     checkLogin();
-    refreshPosts();
+    toRefreshErrands();
 });
 
-// TOKEN
-function getToken() {
+function toGetToken() {
     const token = localStorage.getItem('token');
     return token;
-}
+};
 
 function setToken(token) {
     localStorage.setItem('token', token);
-}
+};
 
-// CHECK LOGIN
 async function checkLogin() {
-    const token = getToken();
+    const token = toGetToken();
 
     if (token) {
         try {
-            const { status } = await doPost('/checkToken', { token })
+            const { status } = await doPost('/checkToken', { token });
 
             if (status !== 200) {
-                alert("Token expirado");
+                alert('Token expirado');
                 location = './index.html';
-            }
+            };
 
         } catch (error) {
-            alert('Faça seu login.');
-            location = './index.html'
-        }
+            alert('Efetue seu login.');
+            location = './index.html';
+        };
     } else {
-        alert('Faça seu login.');
-        location = './index.html'
-    }
-}
+        alert('Efetue seu login.');
+        location = './index.html';
+    };
+};
 
-// GET ERRANDS
-async function getPosts() {
-    const token = getToken();
+async function getErrands() {
+    const token = toGetToken();
     const { data } = await doPost('/getposts', { token });
 
     return data;
-}
+};
 
-// LOGOUT
 async function onLogout() {
-    const token = getToken();
+    const token = toGetToken();
 
     localStorage.clear();
     await doPost('/user/logout', { token });
 
     location = './index.html';
-}
+};
 
-// GET ID
 async function getMyId() {
-    const token = getToken();
+    const token = toGetToken();
     const {data} = await doPost('/myId', { token });
 
     return data;
-}
+};
 
-// PRINT POSTS
-async function refreshPosts() {
-    const posts = await getPosts();
+async function toRefreshErrands() {
+    const errands = await getErrands();
     const myId = await getMyId();
     const tableBody = document.querySelector('#table-body');
     tableBody.innerHTML = '';
     let count = 1;
     
-    if (posts.length > 0) {
-        posts.map(message => {
+    if (errands.length > 0) {
+        errands.map(message => {
             if (myId === message.userId) {
                 tableBody.innerHTML += `
                     <tr data-id="${message.id}">
@@ -79,8 +73,8 @@ async function refreshPosts() {
                         <td class="col-3">${message.title}</td>
                         <td class="col-5">${message.description}</td>
                         <td class="col-2 text-center">
-                            <a class="btn btn-danger p-1" href="#" onclick="removeMessage(event)" id="btnDelete">Apagar</a>
-                            <a class="btn btn-success p-1" data-bs-toggle="modal" data-bs-target="#editModal" href="#" onclick="addIdForEditList()" id="btnEdit">Editar</a>
+                            <a class="btn btn-danger p-1" href="#" onclick="removeErrands(event)" id="btnDelete">Apagar</a>
+                            <a class="btn btn-success p-1" data-bs-toggle="modal" data-bs-target="#editModal" href="#" onclick="addIdForEditList(event)" id="btnEdit">Editar</a>
                         </td>
                     </tr>`
                 count++;
@@ -93,38 +87,37 @@ async function refreshPosts() {
                         <td class="col-2 text-center text-min">Mensagem de outro usuário</td>
                     </tr>`
                 count++;
-            }
+            };
         });
-    }
-}
+    };
+};
 
-// REMOVE ERRANDS
-async function removeMessage(event) {
-    const token = getToken();
-    const postId = event.target.parentNode.parentNode.getAttribute('data-id');
+async function removeErrands(event) {
+    const token = toGetToken();
+    const errandId = event.target.parentNode.parentNode.getAttribute('data-id');
 
-    const response = await doDelete(`/errands/${postId}`, { token });
+    const response = await doDelete(`/errands/${errandId}`, { token });
 
     const { status } = response;
 
     if (status === 204) {
-        refreshPosts();
-        return
-    }
+        toRefreshErrands();
+        return;
+    };
 
-    alert("Não foi possível apagar o post. Tente novamente!")
-}
+    alert('Não foi possível apagar o post.');
+};
 
-async function addIdForEditList() {
-    const token = getToken();
-    const postId = event.target.parentNode.parentNode.getAttribute('data-id');
+async function addIdForEditList(event) {
+    const token = toGetToken();
+    const errandId = event.target.parentNode.parentNode.getAttribute('data-id');
 
     const spanErrandId = document.querySelector('#editErrandId');
-    spanErrandId.setAttribute('data-id', postId);
+    spanErrandId.setAttribute('data-id', errandId);
 
-    spanErrandId.innerHTML = `(${postId})`;
+    spanErrandId.innerHTML = `(${errandId})`;
 
-    const response = await doPost(`/errands/search/${postId}`, { token });
+    const response = await doPost(`/errands/search/${errandId}`, { token });
 
     const { status } = response;
     
@@ -134,42 +127,31 @@ async function addIdForEditList() {
         document.getElementById('editTitle').value = errandToEdit.title;
         document.getElementById('editDescription').value = errandToEdit.description;
     }
-
-
 }
 
-// POSTS ERRANDS
 async function addErrands() {
-    const token = getToken();
-
+    const token = toGetToken();
     const title = document.querySelector('#title').value;
-    // const title = "teste pelo código"
     const description = document.querySelector('#description').value;
-    // const description = "Teste 1"
-
     const response = await doPost('/errands', { title, description, token });
-
     const { status } = response;
 
     if (status === 201) {
-        refreshPosts();
-        return
-    }
+        toRefreshErrands();
+        return;
+    };
 
-    console.log(response);
-    alert("Não foi possível publicar seu post");
-}
+    alert('Recado não publicado.');
+};
 
-// EDIT ERRANDS
-async function editErrands(event) {
-    const token = getToken();
-    
-    const postId = document.querySelector('#editErrandId').getAttribute('data-id');
+async function editErrands() {
+    const token = toGetToken();
+    const errandId = document.querySelector('#editErrandId').getAttribute('data-id');
 
     const title = document.querySelector('#editTitle').value;
     const description = document.querySelector('#editDescription').value;
 
-    const response = await doPut(`/errands/${postId}`, {
+    const response = await doPut(`/errands/${errandId}`, {
         token,
         title,
         description
@@ -178,13 +160,13 @@ async function editErrands(event) {
     const { status } = response;
 
     if (status === 200) {
-        refreshPosts();
+        toRefreshErrands();
     
         title.value = '';
         description.value = '';
 
-        return
-    }
+        return;
+    };
 
     alert(response);
-}
+};
