@@ -1,6 +1,4 @@
-//axios.defaults.baseURL = "https://growdev-scrapbook-api-rjss.herokuapp.com/";
-
-axios.defaults.baseURL = "http://localhost:8080";
+axios.defaults.baseURL = "https://growdev-scrapbook-api-rjss.herokuapp.com/";
 
 const doGet = async (route, params) => {
     return await axios({
