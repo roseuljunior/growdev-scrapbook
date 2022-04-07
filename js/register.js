@@ -7,6 +7,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
 });
 
+function toGetToken() {
+    const token = localStorage.getItem('token');
+    
+    return token;
+};
+
 async function createAccount(event) {
     event.preventDefault();
     
@@ -36,7 +42,8 @@ async function createAccount(event) {
 
     if (validCreateUser) {
         const response = await doPost('/user/create', {
-            email, password
+            email,
+            password
         });
 
         if(response.status === 201) {
